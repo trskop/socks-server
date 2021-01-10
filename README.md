@@ -13,7 +13,22 @@ Dhall.
 
 Either `CONFIG=EXPR` environment variable needs to be defined or
 `--config=EXPR` option passed in the first usage case. The `EXPR` value is a
-Dhall expression.
+Dhall expression, see "Configuration" section.
+
+
+## Configuration
+
+Simple default configuration can look like:
+
+```dhall
+-- | Listen on `localhost:1080` where 1080 is default port for SOCKS proxies.
+{ listen = { host = "localhost", port = 1080 }
+, verbosity = < Annoying | Normal | Silent | Verbose >.Normal
+}
+```
+
+More complicated example that can be turned into a library can be found in
+[`config.dhall`](./config.dhall) file.
 
 
 ## Features and Limitations

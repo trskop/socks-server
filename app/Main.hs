@@ -28,7 +28,7 @@ main :: IO ()
 main = do
     config <- getConfiguration Dhall.auto
         ( Options.fullDesc
-        <> Options.header "Very useful info those that call the '--help'."
+        <> Options.header "Simple SOCKS5 proxy server."
         )
 
     socksServer config
