@@ -1,0 +1,102 @@
+name: &this socks-server
+version: !include ./version.yaml
+synopsis: |
+  Simple SOCKS5 Server
+description: |
+  Simple [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) Server
+
+  See [GitHub README](https://github.com/trskop/socks-server#readme) for more
+  information.
+
+github: trskop/socks-server
+license: BSD3
+license-file: LICENSE
+author: Peter Trško
+maintainer: peter.trsko@gmail.com
+copyright: (c) 2020-2021 Peter Trško
+category: Tools
+
+flags:
+  static:
+    description: Build static executables
+    manual: true
+    default: false
+
+extra-source-files:
+  - README.md
+  - ChangeLog.md
+
+default-extensions:
+  - BlockArguments
+  - DataKinds
+  - DefaultSignatures
+  - DeriveAnyClass
+  - DeriveFunctor
+  - DeriveGeneric
+  - DerivingStrategies
+  - DuplicateRecordFields
+  - FlexibleContexts
+  - FlexibleInstances
+  - GeneralizedNewtypeDeriving
+  - InstanceSigs
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NamedFieldPuns
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PatternSynonyms
+  - PolyKinds
+  - RankNTypes
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TupleSections
+  - TypeApplications
+  - TypeFamilies
+  - TypeOperators
+
+dependencies:
+  - base >=4.13 && <5
+  # ^ Version 4.13.0.0 is bundled with 8.8.1
+
+ghc-options: ["-Wall", "-Wcompat"]
+
+executables:
+  *this:
+    source-dirs: app
+    main: Main.hs
+    dependencies:
+      # Most min version bounds were taken from LTS-16.28 that was used during
+      # initial development.
+      - async >=2.2.2 && <3
+      - bytestring >=0.10.10.1 && <1
+      - cereal >=0.5.8.1 && <0.6
+      - dhall >=1.37.1 && <2
+      # ^ Latest at the time of writing
+      - either >=5.0.1.1 && <6
+      - host-and-port >=0.0.1.0 && <0.1
+      # ^ Package not yet on Hackage
+      - optparse-applicative >=0.15.1.0 && <1
+      - network >=3.1.1.1 && <4
+      - prettyprinter >=1.7.0 && <2
+      - socks >=0.6.1 && <1
+      - streaming-commons >=0.2.2.1 && <0.3
+      - text >=1.2.4.0 && <2
+      - verbosity >=0.3 && <1
+
+    ghc-options: ["-threaded"]
+
+    when:
+      - condition: flag(static)
+        ghc-options:
+          - -static
+          - -O2
+          - -fPIC
+        cpp-options:
+          - -DSTATIC_EXECUTABLE
+        cc-options:
+          - -static
+        ld-options:
+          - -static
+          - -pthread

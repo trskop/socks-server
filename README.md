@@ -1,0 +1,36 @@
+# SOCKS Server
+
+Simple [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) server configured using
+Dhall.
+
+
+## Usage
+
+```
+[CONFIG=EXPR] socks-server [--typecheck] [--config=EXPR]
+              socks-server --print-config-type
+```
+
+Either `CONFIG=EXPR` environment variable needs to be defined or
+`--config=EXPR` option passed in the first usage case. The `EXPR` value is a
+Dhall expression.
+
+
+## Features and Limitations
+
+* Supports only connect command. What it means that it's okay to use as a proxy
+  server for HTTP, but not anything that needs to bind port for connections
+  that go the other way or UDP.
+
+* Authentication is not supported.
+
+* All types of addresses are supported: IPv4, IPv6, and hostname. When hostname
+  is used then DNS resolution is done by the SOCKS server instead of the
+  client. Some command applications need to be told to use this feature, for
+  example `curl` can use either `socks5h://` URI schema or `--socks5-hostname`
+  option for this purpose.
+
+* Logging is not yet implemented even though `Verbosity` is already in the
+  config.
+
+* Error handling needs polishing.
