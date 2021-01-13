@@ -27,6 +27,15 @@ Simple default configuration can look like:
 }
 ```
 
+To listen on all ports (useful inside a Docker container):
+
+```dhall
+-- | Listen on port `1080` (default SOCKS proxy port) on all interfaces.
+{ listen = { host = "*", port = 1080 }
+, verbosity = < Annoying | Normal | Silent | Verbose >.Normal
+}
+```
+
 More complicated example that can be turned into a library can be found in
 [`config.dhall`](./config.dhall) file.
 
@@ -49,3 +58,6 @@ More complicated example that can be turned into a library can be found in
   config.
 
 * Error handling needs polishing.
+
+* Support listening on UNIX domain socket. This should be fairly simple, but
+  will change the configuration type.

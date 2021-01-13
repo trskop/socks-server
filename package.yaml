@@ -1,5 +1,5 @@
 name: &this socks-server
-version: !include ./version.yaml
+version: !include ./version.json
 synopsis: |
   Simple SOCKS5 Server
 description: |
