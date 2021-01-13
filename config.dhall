@@ -4,6 +4,13 @@
 -- While the whole expression int this file can be significantly reduced what
 -- we have here can be easily turned into a library that provides defaults for
 -- missing values.
+--
+-- For example, we can just change the last line to listen on all interfaces
+-- like this:
+--
+-- ```
+-- in Config::{ listen = Listen::{ host = "*" } }
+-- ```
 
 let Listen =
       { Type = { host : Text, port : Natural }

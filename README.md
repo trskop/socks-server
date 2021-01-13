@@ -1,7 +1,7 @@
 # SOCKS Server
 
 Simple [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) server configured using
-Dhall.
+[Dhall configuration language](https://dhall-lang.org/).
 
 
 ## Usage
