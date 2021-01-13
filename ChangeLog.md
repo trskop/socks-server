@@ -2,10 +2,6 @@ For latest version of this document see [`ChangeLog.md on GitHub`
 ](https://github.com/trskop/socks-server/blob/main/ChangeLog.md).
 
 
-### HEAD (unreleased changes)
+### 0.1.0.0
 
-* TODO
-
-### 0.1.0.0 (unreleased)
-
-Initial release
+Initial release; not uploaded to Hackage
