@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bb6f9f65f2330a3a8242eb7f6e3776e79b34f816fe05c1977b058be580eb334e
+-- hash: cc57d786d81590de7d2d5ff51fdc99e9bdb0271ce935e80437e3eea7d0d46887
 
 name:           socks-server
-version:        0.1.0.0
+version:        0.2.0.0
 synopsis:       Simple SOCKS5 Server
 
 description:    Simple [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) Server
@@ -44,7 +44,35 @@ executable socks-server
       Paths_socks_server
   hs-source-dirs:
       app
-  default-extensions: BlockArguments DataKinds DefaultSignatures DeriveAnyClass DeriveFunctor DeriveGeneric DerivingStrategies DuplicateRecordFields FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving InstanceSigs LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeOperators
+  default-extensions:
+      BlockArguments
+      DataKinds
+      DefaultSignatures
+      DeriveAnyClass
+      DeriveFunctor
+      DeriveGeneric
+      DerivingStrategies
+      DuplicateRecordFields
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoImplicitPrelude
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeOperators
   ghc-options: -Wall -Wcompat -threaded
   build-depends:
       async >=2.2.2 && <3

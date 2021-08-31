@@ -7,8 +7,8 @@ Simple [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) server configured using
 ## Usage
 
 ```
-[CONFIG=EXPR] socks-server [--typecheck] [--config=EXPR]
-              socks-server --print-config-type
+[CONFIG=EXPR] socks-server [--config-typecheck] [--config=EXPR]
+              socks-server --config-print-type
 ```
 
 Either `CONFIG=EXPR` environment variable needs to be defined or

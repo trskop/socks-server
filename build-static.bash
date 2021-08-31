@@ -6,7 +6,10 @@
 # - Stack — https://docs.haskellstack.org/
 # - Docker — https://docs.docker.com/get-docker/
 # - jq — https://stedolan.github.io/jq/
-# - GNU tar
+# - Pandoc — https://pandoc.org/
+# - gzip — https://www.gnu.org/software/gzip/
+# - GNU tar — https://www.gnu.org/software/tar/
+# - fakeroot — https://wiki.debian.org/FakeRoot
 
 set -eo pipefail
 
@@ -48,7 +51,7 @@ function getDockerImageViaNix() {
     # GHC version should correspond to LTS version in 'stack.yaml'.
     DEBUGGING_MODE="${debuggingMode}" nix-build --no-link \
         -A "${attribute}" \
-        "${root}/nix/ghc884-musl-docker-image.nix"
+        "${root}/nix/ghc8104-musl-docker-image.nix"
 }
 
 # Usage:
@@ -83,9 +86,19 @@ function main() {
         "${loadDockerImageBashScript}"
     fi
 
+    # Directory structure:
+    #
+    # ${root}/out/
+    # ├── ${target}/
+    # │   ├── bin/*
+    # │   ├── etc/*
+    # │   └── share/man/man1/*.1.gz
+    # └── ${target}-${version}-${arch}.tar.xz
+
     local -r out="${root}/out"
     local -r dest="${out}/${target}"
-    mkdir -p "${dest}/bin" "${dest}/etc"
+
+    mkdir -p "${dest}/bin"
     stack \
         --local-bin-path="${dest}/bin" \
         --docker --docker-image="${dockerImage}" \
@@ -93,17 +106,41 @@ function main() {
         "${flags[@]}" \
         "${target}"
 
+    mkdir -p "${dest}/etc"
     cp "${root}/config.dhall" "${dest}/etc/${target}.dhall"
+
+    mkdir -p "${dest}/share/man/man1"
+    local -r -a manPages=("${target}.1")
+    for manPage in "${manPages[@]}"; do
+        local src="${root}/man/${manPage}.md"
+        local dst="${dest}/share/man/man1/${manPage}"
+        pandoc --standalone --to=man --output="${dst}" "${src}"
+        gzip --force --best "${dst}"
+    done
 
     local version=
     version="$(
         jq --raw-output . "${root}/version.json"
     )"
 
-    local -r arch='x86_64-linux'
-    tar --directory="${out}" \
-        --create --xz --file="${out}/${target}-${version}-${arch}.tar.xz" \
-        "${target}/"
+    local arch=
+    arch="$(
+        stack --docker --docker-image="${dockerImage}" \
+            ghc -- --print-build-platform \
+        | sed 's/-unknown-/-/'
+    )"
+
+    fakeroot -- bash <<EOF
+        chown -R root:root "${dest}"
+        find "${dest}"        -type d -print0 | xargs -0 chmod 755
+        find "${dest}/bin"    -type f -print0 | xargs -0 chmod 755
+        find "${dest}/share"  -type f -print0 | xargs -0 chmod 644
+        find "${dest}/etc"    -type f -print0 | xargs -0 chmod 644
+
+        tar --directory="${out}" \
+            --create --xz --file="${out}/${target}-${version}-${arch}.tar.xz" \
+            "${target}/"
+EOF
 }
 
 main "$@"

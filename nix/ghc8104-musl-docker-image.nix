@@ -3,16 +3,16 @@
 let
   # https://hub.docker.com/r/utdemir/ghc-musl
   imageName = "utdemir/ghc-musl";
-  imageTag = "v16-ghc884";
+  imageTag = "v20-ghc8104";
 
   # Values gotten from the output of:
   #
-  #   nix-prefetch-docker utdemir/ghc-musl v16-ghc884
+  #   nix-prefetch-docker utdemir/ghc-musl v20-ghc8104
   dockerImage = pkgs.dockerTools.pullImage {
     inherit imageName;
     imageDigest =
-      "sha256:b4b85da8d5c4a0241a0fe86a6d33ac8650fe0b0fe6e3253552f56c6039d85ff3";
-    sha256 = "1vvh1q91lh3ksrrfn44sn5zjicq8y32nf3v6gh5fmmzd2ljmyz0l";
+      "sha256:bf0db3ae523dd77b89fcaadee49010cfca83accf84d2070d4ff790557940e8d8";
+    sha256 = "17fa030ja71xwhzll43jbb5zbchb9qrv6kpxv1c5dh7j2if92xbq";
     finalImageName = imageName;
     finalImageTag = imageTag;
 
@@ -51,16 +51,20 @@ in {
     #
     #   main [--full-image-name]
     function main() {
-        case "$1" in
-            --full-image-name)
-                echo "${imageName}:${imageTag}"
-                ;;
+        if (( $# )); then
+            case "$1" in
+                --full-image-name)
+                    echo "${imageName}:${imageTag}"
+                    ;;
 
-            *)
-                echo "Loading docker image: ${dockerImage}"
-                docker load --input "${dockerImage}"
-                ;;
-        esac
+                *)
+                    exit 1
+                    ;;
+            esac
+        else
+          echo "Loading docker image: ${dockerImage}"
+          docker load --input "${dockerImage}"
+        fi
     }
 
     main "$@"

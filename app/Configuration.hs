@@ -199,21 +199,21 @@ getConfiguration decoder@Dhall.Decoder{expected} infoMod =
     configOption = Options.strOption
         ( Options.long "config"
         <> Options.metavar "EXPR"
-        <> Options.help "Set configration to EXPR, where EXPR is a Dhall\
+        <> Options.help "Set configuration to EXPR, where EXPR is a Dhall\
             \ expression; if application fails to parse or typecheck the EXPR\
-            \ it terminates with exit code 1"
+            \ then it terminates with exit code 1"
         )
 
     typecheckFlag :: Options.Parser (Maybe Text -> Mode)
     typecheckFlag = Options.flag Execute Typecheck
-        ( Options.long "typecheck"
+        ( Options.long "config-typecheck"
         <> Options.help "Typecheck the configuration and exit; exit code 0 is\
             \ used on success and exit code 1 on failure to typecheck"
         )
 
     printTypeFlag :: Options.Parser Mode
     printTypeFlag = Options.flag' PrintType
-        ( Options.long "print-config-type"
+        ( Options.long "config-print-type"
         <> Options.help "Print Dhall type of configuration accepted by the\
             \ application"
         )
